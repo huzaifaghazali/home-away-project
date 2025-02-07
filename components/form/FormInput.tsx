@@ -6,7 +6,7 @@ type FormInputProps = {
   type: string;
   label?: string;
   defaultValue?: string;
-  placeHolder?: string;
+  placeholder?: string;
 };
 
 function FormInput({
@@ -14,7 +14,7 @@ function FormInput({
   name,
   type,
   defaultValue,
-  placeHolder,
+  placeholder,
 }: FormInputProps) {
   return (
     <div className='mb-2'>
@@ -24,7 +24,7 @@ function FormInput({
         name={name}
         type={type}
         defaultValue={defaultValue}
-        placeholder={placeHolder}
+        placeholder={placeholder}
         required
       />
     </div>
