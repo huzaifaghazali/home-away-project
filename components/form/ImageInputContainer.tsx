@@ -43,7 +43,7 @@ function ImageInputContainer(props: ImageInputContainerProps) {
         size='sm'
         onClick={() => setUpdateFormVisible((prev) => !prev)}
       >
-        {text}
+        {isUpdateFormVisible ? 'Cancel' : text}
       </Button>
       {isUpdateFormVisible && (
         <div className='max-w-lg mt-4'>
