@@ -28,7 +28,7 @@ export const fetchProfile = async () => {
   return profile;
 };
 
-export const updateProfile = async (
+export const updateProfileAction  = async (
   prevState: any,
   formData: FormData
 ): Promise<{ message: string }> => {
