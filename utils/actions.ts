@@ -5,6 +5,7 @@ import { profileSchema } from './schemas';
 import { redirect } from 'next/navigation';
 
 import db from './db';
+import { revalidatePath } from 'next/cache';
 
 const getAuthUser = async () => {
   const user = await currentUser();
@@ -13,6 +14,13 @@ const getAuthUser = async () => {
   }
   if (!user.privateMetadata.hasProfile) redirect('/profile/create');
   return user;
+};
+
+const renderError = (error: unknown) => {
+  console.log(error);
+  return {
+    message: error instanceof Error ? error.message : 'An error occurred',
+  };
 };
 
 export const fetchProfile = async () => {
@@ -28,11 +36,27 @@ export const fetchProfile = async () => {
   return profile;
 };
 
-export const updateProfileAction  = async (
+export const updateProfileAction = async (
   prevState: any,
   formData: FormData
 ): Promise<{ message: string }> => {
-  return { message: 'update profile action' };
+  const user = await getAuthUser();
+  try {
+    const rawData = Object.fromEntries(formData);
+    const validateFields = profileSchema.parse(rawData);
+
+    await db.profile.update({
+      where: {
+        clerkId: user.id,
+      },
+      data: validateFields,
+    });
+
+    revalidatePath('/profile');
+    return { message: 'Profile updated successfully' };
+  } catch (error) {
+    return renderError(error);
+  }
 };
 
 export const createProfileAction = async (
