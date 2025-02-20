@@ -2,8 +2,7 @@ import FormInput from '@/components/form/FormInput';
 import FormContainer from '@/components/form/FormContainer';
 import { createPropertyAction } from '@/utils/actions';
 import { SubmitButton } from '@/components/form/Buttons';
-
-import React from 'react';
+import PriceInput from '@/components/form/PriceInput';
 
 function CreateProperty() {
   return (
@@ -28,6 +27,8 @@ function CreateProperty() {
               defaultValue='Dream Getaway Awaits You Here!'
             />
             {/* price */}
+            <PriceInput />
+
             {/* categories */}
           </div>
           {/* text area / description */}
