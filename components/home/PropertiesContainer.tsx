@@ -1,15 +1,31 @@
+import { fetchProperties } from '@/utils/actions';
+import type { PropertyCardProps } from '@/utils/types';
+import PropertiesList from './PropertiesList';
+import EmptyList from './EmptyList';
 
+async function PropertiesContainer({
+  category,
+  search,
+}: {
+  category?: string;
+  search?: string;
+}) {
+  const properties: PropertyCardProps[] = await fetchProperties({
+    category,
+    search,
+  });
 
-function PropertiesContainer({
-   category,
-   search,
- }: {
-   category?: string;
-   search?: string;
- }) {
-  return (
-    <div>PropertiesContainer</div>
-  )
+  if (properties.length === 0) {
+    return (
+      <EmptyList
+        heading='No results.'
+        message='Try changing or removing some of your filters.'
+        btnText='Clear Filters'
+      />
+    );
+  }
+
+  return <PropertiesList properties={properties} />;
 }
 
-export default PropertiesContainer
+export default PropertiesContainer;
