@@ -1,7 +1,10 @@
 'use client';
 
-import { ReloadIcon } from '@radix-ui/react-icons';
 import { useFormStatus } from 'react-dom';
+import { FaRegHeart, FaHeart } from 'react-icons/fa';
+import { SignInButton } from '@clerk/nextjs';
+import { ReloadIcon } from '@radix-ui/react-icons';
+
 import { Button } from '@/components/ui/button';
 
 type btnSize = 'default' | 'lg' | 'sm';
@@ -35,5 +38,21 @@ export const SubmitButton = ({
         text
       )}
     </Button>
+  );
+};
+
+export const CardSignInButton = () => {
+  return (
+    <SignInButton mode='modal'>
+      <Button
+        type='button'
+        size='icon'
+        variant='outline'
+        className='p-2 cursor-pointer'
+        asChild
+      >
+        <FaRegHeart />
+      </Button>
+    </SignInButton>
   );
 };
