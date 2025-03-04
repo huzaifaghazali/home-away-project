@@ -1,6 +1,13 @@
 
+type FavoriteToggleFormProps = {
+  propertyId: string;
+  favoriteId: string | null;
+};
 
-function FavoriteToggleForm() {
+function FavoriteToggleForm({
+  propertyId,
+  favoriteId,
+}: FavoriteToggleFormProps)  {
   return (
     <div>FavoriteToggleForm</div>
   )
