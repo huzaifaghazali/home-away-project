@@ -3,6 +3,7 @@ import { fetchPropertyDetails } from '@/utils/actions';
 import BreadCrumbs from '@/components/properties/BreadCrumbs';
 import FavoriteToggleButton from '@/components/card/FavoriteToggleButton';
 import ShareButton from '@/components/properties/ShareButton';
+import ImageContainer from '@/components/properties/ImageContainer';
 
 async function PropertyDetailsPage({ params }: { params: { id: string } }) {
   const property = await fetchPropertyDetails(params.id);
@@ -19,6 +20,7 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
           <FavoriteToggleButton propertyId={property.id} />
         </div>
       </header>
+      <ImageContainer mainImage={property.image} name={property.name} />
     </section>
   );
 }
