@@ -6,7 +6,7 @@ import { Calendar } from '@/components/ui/calendar';
 
 import React from 'react';
 
-export default function App() {
+export default function BookingCalendar() {
   const currentDate = new Date();
   const defaultSelected: DateRange = {
     from: undefined,
