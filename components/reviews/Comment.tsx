@@ -1,5 +1,5 @@
 
-const Comment = () => {
+const Comment = ({ comment }: { comment: string }) => {
   return (
     <div>Comment</div>
   )

@@ -1,5 +1,5 @@
 
-const Rating = () => {
+const Rating = ({ rating }: { rating: number }) => {
   return (
     <div>Rating</div>
   )
