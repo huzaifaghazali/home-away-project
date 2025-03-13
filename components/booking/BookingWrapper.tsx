@@ -1,8 +1,24 @@
+'use client';
+import { useEffect } from 'react';
 
-function BookingWrapper() {
+import { useProperty } from '@/utils/store';
+import { Booking } from '@/utils/types';
+import BookingCalendar from './BookingCalendar';
+import BookingContainer from './BookingContainer';
+
+type BookingWrapperProps = {
+  propertyId: string;
+  price: number;
+  bookings: Booking[];
+};
+
+function BookingWrapper({ propertyId, price, bookings }: BookingWrapperProps) {
   return (
-    <div>BookingWrapper</div>
-  )
+    <>
+      <BookingContainer />
+      <BookingCalendar />
+    </>
+  );
 }
 
-export default BookingWrapper
+export default BookingWrapper;
