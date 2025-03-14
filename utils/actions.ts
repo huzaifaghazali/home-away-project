@@ -398,3 +398,10 @@ export async function fetchPropertyRating(propertyId: string) {
     count: result[0]?._count.rating ?? 0,
   };
 }
+
+export const createBookingAction = async (prevState: {
+  propertyId: string;
+  checkIn: Date;
+  checkOut: Date; }) => {
+  return { message: 'create booking' };
+};
