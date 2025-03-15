@@ -13,6 +13,7 @@ import { redirect } from 'next/navigation';
 import db from './db';
 import { revalidatePath } from 'next/cache';
 import { uploadImage } from './supabase';
+import { calculateTotals } from './calculateTotals';
 
 const getAuthUser = async () => {
   const user = await currentUser();
@@ -279,7 +280,7 @@ export const fetchPropertyDetails = (id: string) => {
           checkIn: true,
           checkOut: true,
         },
-      }
+      },
     },
   });
 };
@@ -402,6 +403,35 @@ export async function fetchPropertyRating(propertyId: string) {
 export const createBookingAction = async (prevState: {
   propertyId: string;
   checkIn: Date;
-  checkOut: Date; }) => {
-  return { message: 'create booking' };
+  checkOut: Date;
+}) => {
+  const user = await getAuthUser();
+  const { propertyId, checkIn, checkOut } = prevState;
+  const property = await db.property.findUnique({
+    where: { id: propertyId },
+    select: { price: true },
+  });
+  if (!property) {
+    return { message: 'Property not found' };
+  }
+  const { orderTotal, totalNights } = calculateTotals({
+    checkIn,
+    checkOut,
+    price: property.price,
+  });
+  try {
+    const booking = await db.booking.create({
+      data: {
+        checkIn,
+        checkOut,
+        orderTotal,
+        totalNights,
+        profileId: user.id,
+        propertyId,
+      },
+    });
+  } catch (error) {
+    return renderError(error);
+  }
+  redirect('/bookings');
 };
