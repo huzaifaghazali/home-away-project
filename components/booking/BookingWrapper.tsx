@@ -12,7 +12,18 @@ type BookingWrapperProps = {
   bookings: Booking[];
 };
 
+
+
 function BookingWrapper({ propertyId, price, bookings }: BookingWrapperProps) {
+
+  useEffect(() => {
+    useProperty.setState({
+      propertyId,
+      price,
+      bookings,
+    });
+  }, []);
+  
   return (
     <>
       <BookingContainer />
