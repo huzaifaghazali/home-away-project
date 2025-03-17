@@ -527,3 +527,21 @@ export const fetchRentals = async () => {
   );
   return rentalsWithBookingSums;
 };
+
+export async function deleteRentalAction(prevState: { propertyId: string }) {
+  const { propertyId } = prevState;
+  const user = await getAuthUser();
+
+  try {
+    await db.property.delete({
+      where: {
+        id: propertyId,
+        profileId: user.id,
+      },
+    });
+    revalidatePath('/rentals');
+    return { message: 'Rental deleted successfully' };
+  } catch (error) {
+    return renderError(error);
+  }
+}
