@@ -31,6 +31,8 @@ const renderError = (error: unknown) => {
   };
 };
 
+/* ========== PROFILE ========== */
+
 export const fetchProfile = async () => {
   const user = await getAuthUser();
 
@@ -144,6 +146,8 @@ export const updateProfileImageAction = async (
     return renderError(error);
   }
 };
+
+/* ========== PROPERTY ========== */
 
 export const createPropertyAction = async (
   prevState: any,
@@ -285,6 +289,8 @@ export const fetchPropertyDetails = (id: string) => {
   });
 };
 
+/* ========== REVIEW ========== */
+
 export const createReviewAction = async (
   prevState: any,
   formData: FormData
@@ -400,6 +406,8 @@ export async function fetchPropertyRating(propertyId: string) {
   };
 }
 
+/* ========== BOOKING ========== */
+
 export const createBookingAction = async (prevState: {
   propertyId: string;
   checkIn: Date;
@@ -475,3 +483,47 @@ export async function deleteBookingAction(prevState: { bookingId: string }) {
     return renderError(error);
   }
 }
+
+/* ========== RENTALS ========== */
+
+export const fetchRentals = async () => {
+  const user = await getAuthUser();
+  const rentals = await db.property.findMany({
+    where: {
+      profileId: user.id,
+    },
+    select: {
+      id: true,
+      name: true,
+      price: true,
+    },
+  });
+
+  const rentalsWithBookingSums = await Promise.all(
+    rentals.map(async (rental) => {
+      const totalNightsSum = await db.booking.aggregate({
+        where: {
+          propertyId: rental.id,
+        },
+        _sum: {
+          totalNights: true,
+        },
+      });
+      const orderTotalSum = await db.booking.aggregate({
+        where: {
+          propertyId: rental.id,
+        },
+        _sum: {
+          orderTotal: true,
+        },
+      });
+
+      return {
+        ...rental,
+        totalNightsSum: totalNightsSum._sum.totalNights,
+        orderTotalSum: orderTotalSum._sum.orderTotal,
+      };
+    })
+  );
+  return rentalsWithBookingSums;
+};
