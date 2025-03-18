@@ -14,7 +14,7 @@ import CountriesInput from '@/components/form/CountriesInput';
 import CounterInput from '@/components/form/CounterInput';
 import AmenitiesInput from '@/components/form/AmenitiesInput';
 import { SubmitButton } from '@/components/form/Buttons';
-// import { type Amenity } from '@/utils/amenities';
+import { type Amenity } from '@/utils/amenities';
 import ImageInputContainer from '@/components/form/ImageInputContainer';
 
 async function EditRentalPage({ params }: { params: { id: string } }) {
@@ -22,7 +22,7 @@ async function EditRentalPage({ params }: { params: { id: string } }) {
 
   if (!property) redirect('/');
 
-//   const defaultAmenities: Amenity[] = JSON.parse(property.amenities);
+  const defaultAmenities: Amenity[] = JSON.parse(property.amenities);
 
   return (
     <section>
@@ -69,7 +69,7 @@ async function EditRentalPage({ params }: { params: { id: string } }) {
           <CounterInput detail='beds' defaultValue={property.beds} />
           <CounterInput detail='baths' defaultValue={property.baths} />
           <h3 className='text-lg mt-10 mb-6 font-medium'>Amenities</h3>
-          {/* <AmenitiesInput defaultValue={defaultAmenities} /> */}
+          <AmenitiesInput defaultValue={defaultAmenities} />
           <SubmitButton text='edit property' className='mt-12' />
         </FormContainer>
       </div>
